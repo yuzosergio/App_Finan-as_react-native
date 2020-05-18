@@ -1,6 +1,8 @@
 import React, {useContext} from 'react';
 import { useNavigation} from '@react-navigation/native';
+import Header from '../../components/Header';
 import {AuthContext} from '../../contexts/auth';
+
 
 import { Container, Nome, NewLink, NewText, Logout,LogoutText} from './styles';
 
@@ -12,6 +14,7 @@ export default function Profile() {
  return (
      //com a função anonima, faz com que o metodo não execute automaticamente, e só chamar quando clicar no botão
    <Container>
+       <Header/>
        <Nome>
            {user && user.nome}
        </Nome>
