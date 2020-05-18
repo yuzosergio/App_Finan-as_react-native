@@ -2,6 +2,7 @@ import React, { useState, createContext, useEffect } from 'react';
 import firebase from '../services/firebaseConnection';
 export const AuthContext = createContext({});
 import AsyncStorage from '@react-native-community/async-storage';
+
 function AuthProvider({ children }){
     const [user, setUser] = useState(null);
     const [loading,setLoading] = useState(true);
@@ -73,8 +74,17 @@ function AuthProvider({ children }){
         await AsyncStorage.setItem('Auth_user', JSON.stringify(data));
     }
 
+    async function signOut(){
+        await firebase.auth().signOut();
+        await AsyncStorage.clear()
+        .then( () => {
+            //sendo null vai deslogar
+            setUser(null);
+        })
+    }
+
     return(
-        <AuthContext.Provider value={{ signed: !!user , user, signUp, signIn, loading }}>
+        <AuthContext.Provider value={{ signed: !!user , user,loading, signUp, signIn, signOut }}>
             {children}
         </AuthContext.Provider>
     );
